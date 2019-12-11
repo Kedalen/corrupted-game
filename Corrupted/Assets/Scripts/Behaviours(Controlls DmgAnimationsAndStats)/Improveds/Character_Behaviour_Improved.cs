@@ -40,12 +40,12 @@ public class Character_Behaviour_Improved : MonoBehaviour
         Burn_CD -= Time.deltaTime;         //--//
         Period_Timer += Time.deltaTime;   
         period_slider.value = stay_period;   
-        if (Period_Timer >= 400f)  //
+        if (Period_Timer >= 400f)  //Reduces de amount of time remaining of the player by 50 every 400f
         {
             stay_period -= 50;
             Period_Timer = 0;
         }
-        if(Energy != 3)
+        if(Energy != 3)            //Recharges the  energy
         {
             Energy_timer += Time.deltaTime;
             if (Energy_timer >= 1f)
@@ -55,7 +55,7 @@ public class Character_Behaviour_Improved : MonoBehaviour
             }
 
         }
-        if (global_cooldown <= 0)
+        if (global_cooldown <= 0)   //Prevents the player from spamming diferent skills
         {
             if (Input.GetKey(KeyCode.C))
             {
@@ -103,15 +103,15 @@ public class Character_Behaviour_Improved : MonoBehaviour
     }
     void BasicAttack()
     {
-        Ray ray = main_Cam.ScreenPointToRay(Input.mousePosition);
+        Ray ray = main_Cam.ScreenPointToRay(Input.mousePosition); // Gets the mouse position and throws a raycast to it
         RaycastHit hit_info;
-        next_skill = (GameObject)Instantiate(skills[0], transform.position + transform.forward * 1.3f, Quaternion.identity);
-        if (Physics.Raycast(ray, out hit_info, MaxRange))
+        next_skill = (GameObject)Instantiate(skills[0], transform.position + transform.forward * 1.3f, Quaternion.identity); //Spawns the selected skill
+        if (Physics.Raycast(ray, out hit_info, MaxRange))  //Gives the spawnedskill rigidbody the raydirection
         {
             Rigidbody rb = next_skill.GetComponent<Rigidbody>();
             Vector3 rotation = hit_info.point - transform.position;
             Quaternion rotationqtr = Quaternion.LookRotation(rotation);
-            next_skill.transform.rotation = Quaternion.Slerp(next_skill.transform.rotation, rotationqtr, 1f);
+            next_skill.transform.rotation = Quaternion.Slerp(next_skill.transform.rotation, rotationqtr, 1f); //Rotates the spawned skill to mouse position
             rb.AddForce(ray.direction * 1000);
         } else
         {
@@ -123,7 +123,7 @@ public class Character_Behaviour_Improved : MonoBehaviour
             rb.AddForce(ray.direction * 1000);
         }
     }
-    void DarkBeyond()
+    void DarkBeyond()   //HUGE AOE (DEALS MEDIUM DAMAGE)
     {
         Ray ray = main_Cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit_info;
@@ -133,7 +133,7 @@ public class Character_Behaviour_Improved : MonoBehaviour
             next_skill = (GameObject)Instantiate(skills[1], hit_info.point, Quaternion.identity);
         }
     }
-    void Devouer()
+    void Devouer()  //FRONTAL SKILL (DEALS HIGH DAMAGE)
     {
         Ray ray = main_Cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit_info;
@@ -151,7 +151,7 @@ public class Character_Behaviour_Improved : MonoBehaviour
             rb.AddForce(ray.direction * 400);
         }
     }
-    void Burn()
+    void Burn()   //FRONTAL SKILL (DEALS LOW DAMGE ON IMPACT BUT LEAVES A BURNINGMARK THAT BURNS THE PLAYER)
     {
         Ray ray = main_Cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit_info;
@@ -174,7 +174,7 @@ public class Character_Behaviour_Improved : MonoBehaviour
             rb.AddForce(ray.direction * 200);
         }
     }
-    void AoEStun()
+    void AoEStun()  //STUNS DE ENEMIES THAT ARE FOUND IN A CERTAIN RADIUS OF THE EXPLOSION (DEALS NO DAMAGE AND CONSUMES THE WHOLE ENERGY BAR) 
     {
         Ray ray = main_Cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit_info;
@@ -184,7 +184,7 @@ public class Character_Behaviour_Improved : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float Dmg)
+    public void TakeDamage(float Dmg)  //THIS CAN BE CALLED BY ANY OTHER SCRIPT TO DEAL DAMAGE TO THE PLAYER 
     {
         stay_period= stay_period - Dmg;
     }

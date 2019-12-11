@@ -42,34 +42,34 @@ public class Enemy_Improved : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        char_behaviour = player.GetComponent<Character_Behaviour_Improved>();
-        myAgent = gameObject.GetComponent<NavMeshAgent>();
-        myAnimator = gameObject.GetComponentInChildren<Animator>();
-        spawn = transform.position;
-        max_Health = Random.Range(1000, 1800);
+        player = GameObject.FindGameObjectWithTag("Player"); //FindsPlayer in the map
+        char_behaviour = player.GetComponent<Character_Behaviour_Improved>(); // Gets the Character Behaviour From The Player
+        myAgent = gameObject.GetComponent<NavMeshAgent>();  //Gets the NavMeshAgent from its own gameobject
+        myAnimator = gameObject.GetComponentInChildren<Animator>(); //Gets the Animator from its children
+        spawn = transform.position;  //Sets spawn as starting position
+        max_Health = Random.Range(1000, 1800); //Sets random value for health
         hp_slider.maxValue = max_Health;
         hp_slider.value = max_Health;
         health = max_Health;
-        myDamage = Random.Range(150,230);
-        detectionRange = Random.Range(10, 25);
-        crit_chance = Random.Range(5, 25);
-        if (player != null)
+        myDamage = Random.Range(150,230);   //Sets the Damage the enemy deals in a random value
+        detectionRange = Random.Range(10, 25); //Sets the detectionRange of the enemy in Random
+        crit_chance = Random.Range(5, 25); //Sets crit chance of the enemy
+        if (player != null) //Null Check for player
         {
-            StartCoroutine(GetDistanceToPlayer());
+            StartCoroutine(GetDistanceToPlayer()); //Starts PlayerCoroutine
         }
         else
-            Debug.Log("Falta Player");
+            Debug.Log("Player Missing");
     }
     void Update()
     {
 
-        AttackTimer += Time.deltaTime;
-        if (health > 0)
+        AttackTimer += Time.deltaTime; //Starts the attack speed timer
+        if (health > 0) //Checks if the enemy health is bigger than 0
         {
-            if(burning)
+            if(burning) //Checks if the enemy burning bool is true
             {
-                if (burning_effect == null)
+                if (burning_effect == null) //Null check for burning_particles
                 {
                     burning_effect = (GameObject)Instantiate(burningEffect, transform.position + transform.up, Quaternion.identity);
                 }
@@ -77,8 +77,8 @@ public class Enemy_Improved : MonoBehaviour
                 {
                     burning_effect.transform.position = transform.position + transform.up;
                 }
-                BurningDuration += Time.deltaTime;
-                BurnTick += Time.deltaTime;
+                BurningDuration += Time.deltaTime; //Starts the timer that determines how long will the burning effect last
+                BurnTick += Time.deltaTime; //Starts the timer that determines how often will the burning effect deal damage
                 if(BurningDuration <= 7f)
                 {
                     if(BurnTick >= 1f)
@@ -94,14 +94,14 @@ public class Enemy_Improved : MonoBehaviour
                     burning = false;
                 }
             }
-            if (StunCounter < 3)
+            if (StunCounter < 3) //Stuns de enemy
             {
                 if (!isStuned)
                 {
                     if (Stunned)
                     {
                         StunTimer = 0;
-                        myAnimator.SetBool("Stunner", true);
+                        myAnimator.SetBool("Stunner", true); 
                         StunCounter++;
                         isStuned = true;
                     }
@@ -211,7 +211,7 @@ public class Enemy_Improved : MonoBehaviour
     }
     IEnumerator GetDistanceToPlayer()
     {
-        while (!TargetFound)
+        while (!TargetFound) 
         {
             yield return new WaitForSeconds(0.5f);
             distancetoplayer = Vector3.Distance(transform.position, player.transform.position);
@@ -260,6 +260,10 @@ public class Enemy_Improved : MonoBehaviour
         {
             health -= Damage;
             hp_slider.value = health;
+            if (!TooFar)
+            {
+                TargetFound = true;
+            }                                    
         }
     }
     void Die()

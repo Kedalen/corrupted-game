@@ -17,7 +17,6 @@ public class Character_Behaviour_Improved : MonoBehaviour
     //HUD ELEMENTS
     public Slider period_slider;
     public Slider energy_slider;
-    private Enemy_Behaviour_Improved EBI;
     public GameObject[] skills;
     public GameObject next_skill;
     //STATS
@@ -36,12 +35,12 @@ public class Character_Behaviour_Improved : MonoBehaviour
     {
         energy_slider.value = Energy;
         global_cooldown -= Time.deltaTime; //Keeps track of time no matter the frames of the player
-        DarkBeyond_CD -= Time.deltaTime;
-        Devour_CD -= Time.deltaTime;
-        Burn_CD -= Time.deltaTime;
-        Period_Timer += Time.deltaTime;
-        period_slider.value = stay_period;
-        if (Period_Timer >= 400f)
+        DarkBeyond_CD -= Time.deltaTime;   //Prevents the player from spaming this skillss--
+        Devour_CD -= Time.deltaTime;       
+        Burn_CD -= Time.deltaTime;         //--//
+        Period_Timer += Time.deltaTime;   
+        period_slider.value = stay_period;   
+        if (Period_Timer >= 400f)  //
         {
             stay_period -= 50;
             Period_Timer = 0;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AoEStuns : MonoBehaviour
 {
-    Enemy_Behaviour_Improved enemy;
+    Enemy_Improved enemy;
     private void Start()
     {
         Destroy(gameObject, 2.1f);
@@ -13,8 +13,8 @@ public class AoEStuns : MonoBehaviour
     {
         if (other.transform.tag == "Enemy")
         {
-            enemy = other.transform.GetComponent<Enemy_Behaviour_Improved>();
-            enemy.Stun = true;
+            enemy = other.transform.GetComponent<Enemy_Improved>();
+            enemy.Stunned = true;
         }
     }
     private void OnTriggerStay(Collider other)

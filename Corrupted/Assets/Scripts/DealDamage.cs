@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DealDamage : MonoBehaviour
 {
-    private Enemy_Behaviour_Improved enemy;
+    private Enemy_Improved enemy;
     public float myDamage;
     public GameObject destroyed_Prefab;
     private GameObject destroyed;
@@ -38,9 +38,9 @@ public class DealDamage : MonoBehaviour
         }
         if(other.transform.tag == "Enemy")
         {
-            enemy = other.transform.GetComponent<Enemy_Behaviour_Improved>();
-            enemy.state = Enemy_Behaviour_Improved.State.chasing;
-            enemy.ReciveDmg(myDamage);
+            enemy = other.transform.GetComponent<Enemy_Improved>();
+            enemy.TakeDamage(myDamage);
+            enemy.TargetFound = true;
         }
 
         

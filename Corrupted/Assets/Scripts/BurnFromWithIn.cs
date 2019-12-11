@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class BurnFromWithIn : MonoBehaviour
 {
-    Enemy_Behaviour_Improved burning_target;
+    Enemy_Improved burning_target;
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Enemy")
         {
-            burning_target = other.GetComponent<Enemy_Behaviour_Improved>();
-            burning_target.isburning = true;
+            burning_target = other.GetComponent<Enemy_Improved>();
+            burning_target.burning = true;
         }
     }
 }
